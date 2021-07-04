@@ -16,6 +16,7 @@ if (document.location.origin.includes("localhost")) {
   console.warn("Le fichier de configuration pour trouver l'API test potentiellement invalide (app-config.js)");
   protocol = document.location.href.split(":")[0]
   API_URL = `${protocol}://${document.location.hostname}`;
+  WS_URL = `${protocol == "https" ? "wss" : "ws"}://${document.location.hostname}:1337`;
 }
 
 module.exports = { API_URL: API_URL + "/api", WS_URL };
