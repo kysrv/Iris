@@ -1,0 +1,1 @@
+cd Batman && npm install && cd ../Sasuke && npm install

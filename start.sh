@@ -1,0 +1,1 @@
+cd Batman && npm run build && cd ../Sasuke && npm start
