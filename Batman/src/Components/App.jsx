@@ -16,6 +16,7 @@ import Test from "./Core/Test";
 import API from "../API";
 import { toast } from "react-toastify";
 import { FakeMsgs } from "../Utils";
+import { WS_URL } from "../app-config";
 
 class App extends Component {
   state = { user: {}, channels: [], users: [], friends: [] };
@@ -41,9 +42,7 @@ class App extends Component {
     this.setState({ user, users, channels });
 
     // * on setup le websocket
-    let client = new WebSocket(
-      `wss://${document.location.hostname}:1337/${localStorage.token}`
-    );
+    let client = new WebSocket(`${WS_URL}/${localStorage.token}`);
     client.onmsg = (msg) => {
       // * event handler
       if (msg.event == "channelUpdate") {
