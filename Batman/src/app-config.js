@@ -11,8 +11,8 @@ if (document.location.origin.includes("localhost")) {
   // * si c'est forward sur ngrok l'api sera forcement sur le serveur en lui même
   API_URL = document.location.origin;
 } else {
-  console.error("fichier de configuration pour trouver l'api potentiellement invalide (app-config.js)");
-  API_URL = `https://${document.location.hostname}:1337`;
+  console.warn("Le fichier de configuration pour trouver l'API test potentiellement invalide (app-config.js)");
+  API_URL = `https://${document.location.hostname}`;
 }
 
 module.exports = { API_URL: API_URL + "/api" };
