@@ -60,8 +60,8 @@ port=443
 
 #### Install required dependencies
 
-`install.sh`
+`bash install.sh`
 
 ### Build client and run server
 
-`start.sh`
+`sudo bash start.sh`
