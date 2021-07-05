@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-class MyProfile extends Component {
-    state = {}
-    render() {
-        return (<div></div>);
-    }
+class Exemple extends Component {
+  state = {
+    date: {
+      username: "Kysan",
+    },
+  };
+  render() {
+    return <div>{this.state.username}</div>;
+  }
 }
 
 export default MyProfile;

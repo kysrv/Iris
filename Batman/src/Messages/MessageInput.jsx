@@ -36,7 +36,7 @@ class MessageInput extends Component {
       }
 
       this.setState({ message: "" });
-      this.props.handleNewMessage(channelId, message);
+      // this.props.handleNewMessage(channelId, message);
     } catch (error) {
       console.log(error);
       toast.error("Error while sending message :C");
