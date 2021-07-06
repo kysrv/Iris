@@ -37,7 +37,6 @@ const ChannelButton = ({ channel, url }) => {
 class Channels extends Component {
   render() {
     let { channels, users } = this.props;
-    console.log("channel:", channels);
     const { url } = this.props;
     return (
       <div className="rounded w-full h-full bg-gray-800 space-y-1 p-1 flex flex-col items-center overflow-y-auto">

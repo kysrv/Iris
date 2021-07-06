@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const Channel = require("./models/Channel");
 const User = require("./models/User");
 
+
+
 // * connection à la db
 mongoose.connect(
     process.env.DB_URL,
@@ -27,7 +29,7 @@ HTTPServer.listen(port, () => console.log(`Iris started on 127.0.0.1:${port}`));
 // note: Channel.watch([], { fullDocument: "updateLookup" })
 Channel.watch().on("change", async document => {
 
-    console.log(JSON.stringify(document, null, 4))
+    // console.log(JSON.stringify(document, null, 4))
     if (document.operationType == "update" || document.operationType == "insert") {
         const channel = await Channel.findById(document.documentKey._id).populate([
             {
@@ -54,7 +56,35 @@ Channel.watch().on("change", async document => {
 })
 
 
-// User.watch().on("change", doc => console.log(doc))
+User.watch().on("change", async document => {
+    console.log(JSON.stringify(document, null, 4))
+    // * seuls champs sur lequels on doit envoyer un event userUpdate
+    const validFields = "username pp accountCreationDate status bio".split()
+
+    // * => si aucun des champs listé au dessus n'a été modifié
+    if (Object.keys(document.updateDescription.updatedFields).filter(key => validFields.includes(key)).lenght == 0) return
+
+    WebSocketServer.clients.forEach(client => {
+        console.log(`<${client.userId}> - sended`)
+    })
+
+    // console.log(JSON.stringify(document, null, 4))
+    if (document.operationType == "update" || document.operationType == "insert") {
+        const user = await User.findById(document.documentKey._id).select("_id username pp accountCreateDate");
+
+        // * futur: pour chacun de ses amis
+        WebSocketServer.clients
+            .forEach(client => {
+                const event = document.operationType == "update" ? "userUpdate" : "newUser";
+
+                client.json({ event, user })
+
+            })
+    }
+
+})
+
+
 
 
 

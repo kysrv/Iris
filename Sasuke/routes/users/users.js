@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
     );
     res.json(users);
   } catch (err) {
-    res.json(err);
+    res.json({ error: err.toString() });
   }
 });
 

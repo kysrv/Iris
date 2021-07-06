@@ -26,6 +26,7 @@ class AppRoot extends Component {
           pauseOnFocusLoss
           draggable
           pauseOnHover
+          limit={1}
         />
 
         <div className="bg-black text-white w-screen h-screen overflow-auto font-mono p-2">

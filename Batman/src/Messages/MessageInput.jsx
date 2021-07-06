@@ -12,7 +12,7 @@ class MessageInput extends Component {
   }
 
   handleChange = ({ currentTarget: { value: input }, ...args }) => {
-    console.log(args);
+    // console.log(args);
     if (input[input.length - 1] != "\n") {
       this.setState({ message: input });
     } else {
@@ -23,7 +23,7 @@ class MessageInput extends Component {
   sendMessage = async () => {
     const { channelId } = this.props;
 
-    console.log(this.state.message);
+    // console.log(this.state.message);
     try {
       const payload = { content: this.state.message };
       const { data: message } = await API.post(

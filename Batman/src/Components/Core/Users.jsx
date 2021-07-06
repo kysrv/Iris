@@ -22,7 +22,7 @@ class Users extends Component {
   }
 
   render() {
-    console.log(this.props.users);
+    if (!this.props.users.map) return null;
     return (
       <div className="h-full w-full items-center justify-center overflow-y-scroll flex flex-wrap gap-4">
         {this.props.users.map((user) => (
