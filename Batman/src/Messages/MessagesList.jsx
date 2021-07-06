@@ -39,7 +39,7 @@ const Message = ({
   );
 };
 
-class Messages extends Component {
+class MessagesList extends Component {
   componentDidMount() {
     this.scrollToBottom();
   }
@@ -76,4 +76,4 @@ class Messages extends Component {
   }
 }
 
-export default Messages;
+export default MessagesList;

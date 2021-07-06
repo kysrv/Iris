@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "GENERATE_SOURCEMAP=FALSE craco build"
+    "build": "craco build"
   },
   "eslintConfig": {
     "extends": [

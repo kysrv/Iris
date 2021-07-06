@@ -23,7 +23,6 @@ const createNewMessage = async (authorId, content) => {
   const message = new Message({ author: authorId, content });
   await message.save();
   const msg = await Message.findById(message.id).populate({ path: "author", select: "pp username" })
-
   return msg;
 };
 

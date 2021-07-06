@@ -49,10 +49,27 @@ class App extends Component {
         console.log("channelUpdate:", msg.channel);
         let channels = [...this.state.channels];
         // * pas ouf la complexité mieux avec indexOf
-        channels = channels.map((channel) =>
-          channel._id === msg.channel._id ? msg.channel : channel
-        );
+        let found = false;
+        channels = channels.map((channel) => {
+          found = true;
+          return channel._id === msg.channel._id ? msg.channel : channel;
+        });
+
+        // channels.sort((a, b) => {
+        //   if (a.messages.length == 0 && b.messages.length == 0) {
+        //     return a.name > b.name;
+        //   } else {
+        //     if (a.messages.length == 0) {
+
+        //     }
+        //   }
+        // });
+
+        // * si non trouvé ajouté ?
         this.setState({ channels });
+      }
+      if (msg.event == "newChannel") {
+        this.setState({ channels: [...this.state.channels, msg.channel] });
       }
     };
 

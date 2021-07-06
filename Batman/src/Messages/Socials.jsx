@@ -7,7 +7,7 @@ import ChannelBar from "./ChannelBar";
 import Channels from "./Channels";
 import MembersList from "./MemberList";
 import MessageInput from "./MessageInput";
-import Messages from "./Messages";
+import MessagesList from "./MessagesList";
 
 class Socials extends Component {
   state = {
@@ -47,7 +47,10 @@ class Socials extends Component {
                     />
                     <div className="h-full w-full flex flex-row overflow-hidden gap-1">
                       <div className="h-full w-full flex flex-col overflow-hidden">
-                        <Messages channel={channel} currentUser={currentUser} />
+                        <MessagesList
+                          channel={channel}
+                          currentUser={currentUser}
+                        />
                         <MessageInput
                           channelId={channelId}
                           handleNewMessage={handleNewMessage}
