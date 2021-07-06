@@ -11,12 +11,25 @@ const fs = require("fs");
 require("dotenv").config();
 const app = express();
 
+const { HTTPS_PORT, HTTP_PORT } = process.env;
 let server;
+
 try {
   // * clef & certificat pour le https
-  let options = { key: fs.readFileSync('ssl/privkey.pem'), cert: fs.readFileSync('ssl/fullchain.pem') };
+  let options = { key: fs.readFileSync('ssl/privkey.pem'), cert: fs.readFileSync('ssl/fullchain.pem') }
+
   server = require('https').createServer(options, app)
+
+  server.listen(HTTPS_PORT, () => {
+    console.log(`Iris started on 127.0.0.1:${HTTPS_PORT}`)
+  });
+
+  // * redirige tout le trafique en https
+  const httpsRedirector = express().all("*", (req, res) => res.redirect(`https://${req.hostname}${req.url != "/" ? req.url : ""}:${HTTPS_PORT != 443 ? HTTPS_PORT : ""}`));
+  http = require("http").createServer(redirector)
+  http.listen(HTTP_PORT)
 } catch {
+  // * si il n'y a pas de certificat ssl 
   server = require("http").createServer(app);
 }
 
@@ -38,9 +51,9 @@ ws.on('connection', async (socket) => {
   let user = await User.findById(socket.userId);
   // socket.userDocument = user;
 
-  console.log(`[ws] - new client <${user.username}> connected`)
+  console.log(`[ws] - new client < ${user.username}> connected`)
 
-  socket.json("salut")
+  socket.json({ "msg": "salut" })
 
   socket.on("msg", async msg => {
     const { request, content } = msg;
@@ -64,12 +77,12 @@ ws.on('connection', async (socket) => {
 app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Cross-Origin-Embedder-Policy", "")
+  res.header("Cross-Origin-Embedder-Policy", "");
   res.header("Referrer-Policy", "no-referrer");
   next();
 })
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json());
 
 
 // * * * ROUTES * * * //
@@ -95,37 +108,37 @@ mongoose.connect(
 );
 
 // lancement du serveur
-const { PORT } = process.env;
-server.listen(PORT, () => {
-  console.log(`Iris started on 127.0.0.1:${PORT}`);
 
-  // * /!\ j'envoie tout le channel c'est pas opti /!\
-  Channel.watch(/*[], { fullDocument: "updateLookup" }*/).on("change", async (data) => {
 
-    // console.log(JSON.stringify(data, null, 4))
-    const channel = await Channel.findById(data.documentKey._id).populate([
-      {
-        path: "members",
-        select: "_id username pp"
-      },
-      {
-        path: "messages",
-        populate: { path: "author", select: "_id username pp" }
-      }]
-    );
 
-    const validMembersIds = channel.members.map(m => m._id)
-    ws.clients
-      .forEach(client => {
 
-        if (validMembersIds.includes(client.userId)) {
-          client.json({ event: "channelUpdate", channel })
-        }
-      })
 
-  })
 
-});
+// * /!\ j'envoie tout le channel c'est pas opti /!\
+Channel.watch(/*[], { fullDocument: "updateLookup" }*/).on("change", async (data) => {
+
+  // console.log(JSON.stringify(data, null, 4))
+  const channel = await Channel.findById(data.documentKey._id).populate([
+    {
+      path: "members",
+      select: "_id username pp"
+    },
+    {
+      path: "messages",
+      populate: { path: "author", select: "_id username pp" }
+    }]
+  );
+
+  const validMembersIds = channel.members.map(m => m._id)
+  ws.clients
+    .forEach(client => {
+
+      if (validMembersIds.includes(client.userId)) {
+        client.json({ event: "channelUpdate", channel })
+      }
+    })
+
+})
 
 
 
@@ -141,7 +154,7 @@ server.on('upgrade', (req, socket, head) => {
     }
   } catch (error) {
     console.error(error)
-    socket.write(`HTTP/1.1 401 Unauthorized  (${JSON.stringify(error)}) \r\n\r\n`)
+    socket.write(`HTTP / 1.1 401 Unauthorized(${JSON.stringify(error)}) \r\n\r\n`)
     return
   }
 

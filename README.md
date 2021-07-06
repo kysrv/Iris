@@ -54,8 +54,9 @@ DB_URL=mongodb://127.0.0.1:27017/Iris
 # jswon web token's secret key
 JWT_SECRET=putalongrandomlygeneratedstringthere
 
-# running port (443 for https 80 for http)
-port=443
+# running port
+HTTPS_PORT=443
+HTTP_PORT=80
 ```
 
 #### Install required dependencies
