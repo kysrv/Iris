@@ -10,7 +10,9 @@ const User = require("./models/User");
 process.on('uncaughtException', err => {
     console.error('There was an uncaught error', err)
 })
-
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 // * connection à la db
 mongoose.connect(
