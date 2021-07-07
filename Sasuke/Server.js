@@ -7,6 +7,10 @@ const Channel = require("./models/Channel");
 const User = require("./models/User");
 
 
+process.on('uncaughtException', err => {
+    console.error('There was an uncaught error', err)
+})
+
 
 // * connection à la db
 mongoose.connect(
