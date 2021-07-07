@@ -63,7 +63,7 @@ Channel.watch().on("change", async document => {
 
 
 User.watch().on("change", async document => {
-    console.log(JSON.stringify(document, null, 4))
+    // console.log(JSON.stringify(document, null, 4))
     // * seuls champs sur lequels on doit envoyer un event userUpdate
     const validFields = "username pp accountCreationDate status bio".split()
 
