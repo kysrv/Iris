@@ -67,15 +67,20 @@ User.watch().on("change", async document => {
     // * seuls champs sur lequels on doit envoyer un event userUpdate
     const validFields = "username pp accountCreationDate status bio".split()
 
-    // * => si aucun des champs listé au dessus n'a été modifié
-    if (Object.keys(document.updateDescription.updatedFields).filter(key => validFields.includes(key)).lenght == 0) return
-
-    WebSocketServer.clients.forEach(client => {
-        console.log(`<${client.userId}> - sended`)
-    })
+    // WebSocketServer.clients.forEach(client => {
+    //     console.log(`<${client.userId}> - sended`)
+    // })
 
     // console.log(JSON.stringify(document, null, 4))
     if (document.operationType == "update" || document.operationType == "insert") {
+
+        // * => si aucun des champs listé au dessus n'a été modifié
+        if (document.operationType != "insert") {
+            // document.updateDescription.updatedFields n'existe pas lors des updates
+            if (Object.keys(document.updateDescription.updatedFields).filter(key => validFields.includes(key)).lenght == 0) {
+                return
+            }
+        }
         const user = await User.findById(document.documentKey._id).select("_id username pp accountCreateDate");
 
         // * futur: pour chacun de ses amis
