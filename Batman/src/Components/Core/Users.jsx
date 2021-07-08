@@ -17,10 +17,6 @@ const UserCard = ({ username, accountCreationDate, pp, _id }) => {
 };
 
 class Users extends Component {
-  async componentDidMount() {
-    this.props.handleUsersUpdate();
-  }
-
   render() {
     if (!this.props.users.map) return null;
     return (

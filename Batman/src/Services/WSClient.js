@@ -37,7 +37,7 @@ class WSClient extends WebSocket {
         }
 
         if (msg.event == "newUser") {
-            this.component.setState({ users: [...this.component.users, msg.user] });
+            this.component.setState({ users: [...this.component.state.users, msg.user] });
         }
     };
 

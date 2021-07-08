@@ -123,7 +123,7 @@ router.post("/:channelID/message", async (req, res) => {
     // * on crée un message
     const message = await createNewMessage(req.userId, content);
     // * on l'ajoute à la fin de la liste des messages dans le salon
-    channel.messages.push(message._id);
+    channel.messages.push(message._id); // pas sur que ce soit la bonne méthode pour update le channel
     await channel.save();
 
 

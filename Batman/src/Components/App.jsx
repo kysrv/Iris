@@ -47,10 +47,6 @@ class App extends Component {
     let client = new WSClient(WS_URL, localStorage.token, this);
   };
 
-  handleUsersUpdate = async () => {
-    this.setState({ users: await getUsers() });
-  };
-
   handleNewMessage = (channelId, msg) => {
     const channels = [...this.state.channels].map((chan) => {
       if (chan._id == channelId) {
